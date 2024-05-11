@@ -1,0 +1,5 @@
+﻿Criar migração:
+ dotnet ef migrations add InitialCreate -p '.\BlazorLogin.csproj'
+
+Enviar migrações para banco de dados:
+dotnet ef database update -p '.\BlazorLogin.csproj' -v

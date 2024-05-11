@@ -1,0 +1,39 @@
+﻿@page "/criarusuario"
+@using BlazorLogin.Model
+@inject BlazorLogin.Service.UsuarioService service;
+@rendermode InteractiveServer
+
+<h3>CriarUsuario</h3>
+
+<form method="post" @onsubmit="Submit">
+    <input type="text" name="name" placeholder="Digite o nome" @bind-value="usuario.UserName" />
+    <input type="email" placeholder="Digite o email" @bind-value="usuario.Email" />
+    <input type="password" placeholder="Digite a senha" @bind-value="senha" />
+    <input type="submit" text="Criar" />
+</form>
+<div>@mensagem</div>
+
+
+@code {
+    public Usuario usuario { get; set; } = new Usuario();
+
+    public string senha { get; set; }
+
+    public string mensagem { get; set; } = "Sem alteração";
+
+    public async void Submit()
+    {
+        try
+        {
+            mensagem = "Usuario sendo criado";
+            Usuario novoUsuario = await service.Create(usuario, senha);
+            mensagem = $"Usuario com id {novoUsuario.Id} foi criado com sucesso!";
+
+        }
+        catch (Exception ex)
+        {
+            mensagem = $"Erro: {ex.Message}";
+        }
+
+    }
+}
